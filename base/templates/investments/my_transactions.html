@@ -1,0 +1,197 @@
+{% extends 'base/base.html' %}
+{% load static %}
+{% block title %}
+<title>Transactions - Solomartel </title>
+{% endblock title %}
+
+{% block content %}
+<!-- Breadcrumbs -->
+<!--<style>
+   #boxes{
+   float:left;
+   width:99%;
+   }
+   #leftbox {
+   float:left;
+   width:20%;
+   }
+   #middlebox{
+   float:left;
+   width:75%;
+   }
+   p {
+      background:none !important;
+      }
+   #myModal {
+   text-align: center;
+}
+.modal-body p {
+   font-size: 18px;
+}
+.alert-popup .modal-header {
+   padding: 5px 10px;
+   background-image: linear-gradient(to left, #74ebd5, #9face6);
+   background-image: -moz-linear-gradient(to left, #74ebd5, #9face6);
+   background-image: -webkit-linear-gradient(to left, #74ebd5, #9face6);
+   background-image: -o-linear-gradient(to left, #74ebd5, #9face6);
+   background-image: -ms-linear-gradient(to left, #74ebd5, #9face6);
+   color: #fff;
+   font-weight: 700;
+}
+
+.alert-popup h4.modal-title {
+   padding: 0px;
+   font-size: 20px;
+   font-weight: 500;
+}
+
+.modal-header button.close:focus {
+   outline: 0;
+}
+
+.modal-header button.close {
+   color: #fff;
+   opacity: 1;
+}
+
+.modal-footer button.btn.btn-danger:focus, .sweet-cancel:focus, .sweet-cancel:hover {
+   box-shadow: none;
+   outline: 0;
+   border-color: transparent;
+}
+
+.modal-footer button.btn.btn-danger, .sweet-cancel {
+   opacity: 1;
+   border-color: transparent;
+   box-shadow: none;
+   outline: 0;
+   padding: 4px 20px;
+   background-color: #116fbc !important;
+}
+
+.alert-popup .modal-body {
+   text-align: center;
+}
+
+.alert-popup .modal-body .fa {
+   font-size: 60px;
+   color: #83d5db;
+}
+
+.alert-popup .modal-body p {
+   margin: 0;
+}
+
+.alert-popup .modal-dialog {
+   border-color: transparent;
+   margin: 150px auto;
+}
+.modal.show .modal-dialog {
+   -webkit-transform: translate(0, 0);
+   transform: translate(0, 0);
+}
+
+
+
+.modal-body .alert,
+.msg.alert {
+   display: none;
+}
+
+
+#myModel .modal-footer {
+   justify-content: center !important;
+}
+</style>-->
+{% if all_transactions %}
+<div class="pages">
+    <div class="row flex-column">
+        <h3 class="text-center">Your transactions</h3>
+        {% for transaction in all_transactions %}
+
+        <div class="row justify-content-center mx-2" id="boxes">
+
+            <img class="img-responsive col-md-2 col-sm-12 col-xs-12 col-lg-3"
+                 src="{{ transaction.investment.my_images.all.0.image.url }}"
+                 alt="{{ transaction.investment.name }}'s image">
+
+            <div class="row flex-column mt-auto justify-content-between col-md-10 col-sm-12 col-lg-9 col-xs-10"
+                 style="background: #f2f9ff;">
+                <div class="row">
+                    <div class="col-md-3 pl-5 pt-2">
+                        <h6>{{ transaction.investment.name }}</h6>
+                    </div>
+                    <div class="row mt-0 pt-2 col-md-9 col-xs-12 col-lg-9 col-sm-12">
+                        <div class="col-12 col-md-3 col-sm-6 col-xs-12 text-right">Transaction ID<br><strong>#{{ transaction.id }}</strong></div>
+                        <div class="col-12 col-md-3 col-sm-6 text-right">Amount<br><strong>{{ transaction.invested_amount }}</strong></div>
+                        <div class="col-12 col-md-3 col-sm-6 text-right">Submitted date<br><strong>{{ transaction.invest_date}}</strong></div>
+                        <div class="col-12 col-md-3 col-sm-6 text-right">Funds data<br><strong>...</strong></div>
+                    </div>
+                </div>
+                <div class="row">
+                    {% if not transaction.done %}
+                    <a style="" data-toggle="modal" data-target="#myModal" class="btn btn-block">Delete Offer
+                        <i class="fa fa-trash" aria-hidden="true" style="font-style: normal;"></i>
+                    </a>
+                    {% endif %}
+                    <div class="modal fade" id="myModal">
+                        <div class="modal-dialog">
+                            <div class="modal-content" style="">
+                                <div class="modal-body">
+                                    <p style="font-family: sans-serif;">Are you sure you want to Delete the Offer?</p>
+                                </div>
+                                <!-- Modal footer -->
+                                <div class="modal-footer justify-content-center">
+                                    <a href="{% url 'base:delete_investment' transaction.id %}">
+                                        <button type="button" class="btn btn-danger">Yes</button>
+                                    </a>
+                                    <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {% if not transaction.done %}
+                <div class="row align-items-center"
+                     style="background-color: #0a4a7f; font-family: Roboto, Sans-serif; height: 60px;">
+                    <a href="{% url 'base:choose_payment' transaction.id %}"
+                       class="btn btn-block text-white"> Pay Here <i style="" class="fa fa-share"
+                                                                     aria-hidden="true"></i>
+                    </a>
+                </div>
+                {% elif transaction.done and not transaction.approved %}
+                <div class="row align-items-center justify-content-end"
+                     style="background-color: #FF4500; font-family: Roboto, Sans-serif; height: 60px;">
+                    <span style="" class="btn btn-block text-white">Pending approval</span>
+                </div>
+                {% elif transaction.done and transaction.approved %}
+                <div class="row align-items-center justify-content-end"
+                     style="background-color: #008000; font-family: Roboto, Sans-serif; height: 60px;">
+                    <span style="" class="btn btn-block text-white">Approved</span>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    <br>
+    <br>
+    <br>
+    {% endfor %}
+    {% else %}
+    <br><br>
+    <div class="breadcrumbs-custom-inner">
+        <br>
+        <br>
+        <div class="alert alert-success" style="margin-left: 555px;margin-bottom: 100px;" id="msg">
+            <h4 style="margin-top: 90px">Yet, You have no offer in progress,</h4>
+            <h4> Check back after you submit an offer </h4>
+            <br><span style="margin-left: 140px"><a href="{% url 'base:investments' %}}>Click Here for offer</a></span>
+        </div>
+    </div>
+    <br>
+    <br>
+    {% endif %}
+</div>
+
+{% endblock content %}

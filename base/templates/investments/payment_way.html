@@ -1,0 +1,50 @@
+{% extends 'base/base.html' %}
+{% load static %}
+{% block title %}
+<title>Choose Payment - Solomartel</title>
+{% endblock title %}
+{% block content %}
+<!--<style>
+   div#leftbox {
+   height: auto !important;
+   }
+   #boxes{
+   width:75%;
+   text-align:center;
+   padding: vertical horizontal;
+   }
+   #leftbox {
+   float:left;  
+   width:25%; 
+   } 
+   #rightbox{ 
+   float:right; 
+   width:25%; 
+   } 
+   h1{ 
+   color:green; 
+   text-align:center; 
+   } 
+
+</style>-->
+<section class="section novi-background p-5" style="padding-top: 80px;">
+    <div class="row flex-column justify-content-center align-items-center m-5">
+        <strong>
+            <h3 class="col-md-12 col-xs-12 col-lg-12 col-sm-12 text-center">Select a Payment Method </h3>
+        </strong>
+        <div id="boxes" class="col-md-12 col-xs-12 col-lg-12 col-sm-12 row justify-content-center align-items-center">
+            <div id="leftbox" class="col-md-5 text-center m-3">
+                <a href="#"
+                   class="btn text-white"
+                   style="font-size: 1em;background-color: #0a4a7f; font-family: Roboto, Sans-serif;">Direct Bank
+                    Transfer</a>
+            </div>
+            <div id="rightbox" class="col-md-5 text-center m-3">
+                <a href="/payment/charge/{{id_offer_obj}}"
+                   class="btn text-white"
+                   style="font-size:1em; background-color: #0a4a7f; font-family: Roboto, Sans-serif;">Credit Card</a>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock content %}

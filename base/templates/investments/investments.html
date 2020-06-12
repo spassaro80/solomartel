@@ -1,0 +1,43 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block title %}
+<title> Investments - SolomartelHoldings </title>
+{% endblock title %}
+
+{% block content %}
+
+<section class="section novi-background" style="padding-top: 80px;">
+    <div class="mx-3">
+        <div class="row justify-content-center align-items-center">
+            {% for investment in investments %}
+            <div class="card col-10 col-sm-6 col-md-4 col-lg-4 col-xl-4 my-3" style="width: 18rem;">
+                <img class="card-img-top" src="{% static 'images/service-thumbnail-1-270x300.jpg' %}"
+                     alt="Card image cap">
+                <div class="card-body border">
+                    <h5 class="card-title font-weight-bold text-center mb-3">{{ investment.name }}</h5>
+                    <ul class="list-group">
+                        <li class="list-group-item">
+                            <strong>Minimum investments: </strong><span>{{ investment.minimum_investment }}%</span>
+                        </li>
+                        <li class="list-group-item">
+                            <strong>Gross yearly ROI: </strong><span>{{ investment.gross_returns }}%</span>
+                        </li>
+                        <li class="list-group-item">
+                            <strong>Net yearly returns: </strong> <span>{{ investment.net_returns }}%</span>
+                        </li>
+                        <li class="list-group-item">
+                            <strong>Total fund investment amount: </strong><span>{{ investment.invested_amount }}$</span>
+                        </li>
+                        <li class="list-group-item" style="border-bottom-left-radius: 0px; border-bottom-right-radius: 0px;">
+                            <strong>Property market value: </strong><span>{{ investment.market_value }}$</span>
+                        </li>
+                    </ul>
+                    <a href="{% url 'base:investment' investment.name %}" class="btn btn-block text-white" style="background-color: #0a4a7f; border-top-left-radius: 0px; border-top-right-radius: 0px;">Details</a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endblock content %}
